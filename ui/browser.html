@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mefai Browser</title>
+  <link rel="stylesheet" href="browser.css">
+</head>
+<body>
+  <!-- Update Banner -->
+  <div id="update-banner" class="hidden">
+    <span id="update-msg"></span>
+    <button onclick="mefai.restartForUpdate()" id="update-restart-btn" class="hidden">Restart Now</button>
+  </div>
+
+  <!-- Title Bar -->
+  <div id="titlebar">
+    <div id="titlebar-logo">
+      <img src="../assets/icon.png" width="16" height="16" onerror="this.style.display='none'">
+      <span>Mefai</span>
+    </div>
+    <div id="titlebar-controls">
+      <button onclick="mefai.minimize()" class="tb-btn" title="Minimize">&#x2014;</button>
+      <button onclick="mefai.maximize()" class="tb-btn" title="Maximize">&#x25A1;</button>
+      <button onclick="mefai.close()" class="tb-btn tb-close" title="Close">&#x2715;</button>
+    </div>
+  </div>
+
+  <!-- Tab Bar -->
+  <div id="tabbar">
+    <div id="tabs"></div>
+    <button id="new-tab-btn" onclick="createTab()" title="New Tab">+</button>
+    <div id="ticker-mini"></div>
+  </div>
+
+  <!-- Navigation Bar -->
+  <div id="navbar">
+    <div id="nav-buttons">
+      <button onclick="navBack()" class="nav-btn" title="Back">&#x276E;</button>
+      <button onclick="navForward()" class="nav-btn" title="Forward">&#x276F;</button>
+      <button onclick="navReload()" class="nav-btn" title="Reload">&#x21BB;</button>
+    </div>
+    <div id="url-container">
+      <input type="text" id="url-input" placeholder="Search or enter URL..." spellcheck="false"
+        onkeydown="if(event.key==='Enter'){navigateTo(this.value)}">
+    </div>
+    <div id="nav-actions">
+      <button onclick="togglePanel('panels')" class="nav-btn nav-label" id="btn-panels" title="SuperBSC Panels">Panels</button>
+      <button onclick="togglePanel('bsai')" class="nav-btn nav-label active" id="btn-bsai" title="Mefai AI">AI</button>
+      <button onclick="togglePanel('terminal')" class="nav-btn nav-label" id="btn-terminal" title="Terminal">Term</button>
+    </div>
+  </div>
+
+  <!-- Main Layout -->
+  <div id="main-layout">
+
+    <!-- Left: SuperBSC Panels Sidebar -->
+    <div id="panel-sidebar" class="sidebar-panel hidden">
+      <div class="sidebar-head">
+        <span>SuperBSC Panels</span>
+        <input type="text" id="panel-search" placeholder="Search panels..." oninput="filterPanels(this.value)">
+      </div>
+      <div id="panel-categories"></div>
+    </div>
+
+    <!-- Center: Browser + Tabs -->
+    <div id="center-content">
+      <!-- Webviews -->
+      <div id="webview-container"></div>
+
+      <!-- New Tab Page -->
+      <div id="newtab-page" class="active">
+        <div class="newtab-inner">
+          <div class="newtab-logo">
+            <img src="../assets/icon.png" width="64" height="64" onerror="this.style.display='none'">
+            <h1>Mefai Browser</h1>
+            <p>AI Native Trading Browser</p>
+          </div>
+          <div class="newtab-search">
+            <input type="text" id="newtab-search-input" placeholder="Search or enter URL..."
+              onkeydown="if(event.key==='Enter'){navigateTo(this.value);this.value=''}">
+          </div>
+          <div class="newtab-shortcuts" id="newtab-shortcuts"></div>
+          <div class="newtab-section">
+            <h3>Quick Panels</h3>
+            <div class="newtab-panels" id="newtab-panels"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right: BSAI AI Chat (always visible by default) -->
+    <div id="bsai-sidebar" class="sidebar-panel">
+      <div class="sidebar-head">
+        <span>Mefai AI</span>
+        <button onclick="togglePanel('bsai')" class="sidebar-close-btn">&#x2715;</button>
+      </div>
+      <div id="bsai-content">
+        <webview id="bsai-webview" src="https://mefai.io/bsai/chat" partition="persist:mefai"></webview>
+      </div>
+    </div>
+
+    <!-- Right: Terminal (hidden by default) -->
+    <div id="terminal-sidebar" class="sidebar-panel hidden">
+      <div class="sidebar-head">
+        <span>Terminal</span>
+        <button onclick="togglePanel('terminal')" class="sidebar-close-btn">&#x2715;</button>
+      </div>
+      <div class="terminal-container" id="term-output"></div>
+      <div class="terminal-input-line">
+        <span class="terminal-prompt">$</span>
+        <input class="terminal-input" id="term-input" placeholder="Type command..."
+          onkeydown="if(event.key==='Enter'){sendTermCmd(this.value);this.value=''}">
+      </div>
+    </div>
+  </div>
+
+  <script src="browser.js"></script>
+</body>
+</html>
