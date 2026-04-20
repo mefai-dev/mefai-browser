@@ -1,4 +1,4 @@
-// Mefai Browser — Chrome-like Trading Browser with SuperBSC + BSAI
+// Mefai Browser ··· Chrome-like Trading Browser with SuperBSC + BSAI
 
 // ============ SUPERBSC PANELS ============
 const PANEL_CATEGORIES = {

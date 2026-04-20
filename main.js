@@ -38,7 +38,7 @@ autoUpdater.on("update-available", (info) => {
 
 autoUpdater.on("update-downloaded", (info) => {
   console.log("[Mefai] Update downloaded:", info.version);
-  mainWindow?.webContents.send("update:status", `v${info.version} ready — restart to apply`);
+  mainWindow?.webContents.send("update:status", `v${info.version} ready ··· restart to apply`);
   // Show notification to user
   if (mainWindow) {
     mainWindow.webContents.send("update:ready", info.version);
@@ -90,7 +90,7 @@ ipcMain.on("update:restart", () => {
   autoUpdater.quitAndInstall(false, true);
 });
 
-// Terminal support — try node-pty first, fallback to child_process
+// Terminal support ··· try node-pty first, fallback to child_process
 let ptyProcess = null;
 let shellProcess = null;
 
